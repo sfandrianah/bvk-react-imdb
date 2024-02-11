@@ -31,8 +31,10 @@ export default function Populars() {
       .then(data => {
         var responseJson = data.results;
         setPopulars(responseJson);
-      })
-      ;
+      }).catch((e) => {
+
+      });
+    ;
   }
 
   React.useEffect(() => {

@@ -154,12 +154,6 @@ export default function MovieCard(props) {
                     </DialogTitle>
                     <DialogContent>
                         <Box sx={{ textAlign: "center" }}>
-                            {/* <CardMedia
-                                component="video"
-                                alt="green iguana"
-                                height="140"
-                                src={video}
-                            /> */}
                             <video
                                 width="auto"
                                 height="500"
@@ -167,53 +161,8 @@ export default function MovieCard(props) {
                                 <source src={video} type="video/mp4" />
                             </video>
                         </Box>
-                        {/* <DialogContentText>
-                            You can set my maximum width and whether to adapt or not.
-                        </DialogContentText> */}
-                        <Box
-                            noValidate
-                            component="form"
-                            sx={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                m: 'auto',
-                                width: 'fit-content',
-                            }}
-                        >
-                            {/* <FormControl sx={{ mt: 2, minWidth: 120 }}>
-                                <InputLabel htmlFor="max-width">maxWidth</InputLabel>
-                                <Select
-                                    autoFocus
-                                    value={maxWidth}
-                                    onChange={handleMaxWidthChange}
-                                    label="maxWidth"
-                                    inputProps={{
-                                        name: 'max-width',
-                                        id: 'max-width',
-                                    }}
-                                >
-                                    <MenuItem value="xs">xs</MenuItem>
-                                    <MenuItem value="sm">sm</MenuItem>
-                                    <MenuItem value="md">md</MenuItem>
-                                    <MenuItem value="lg">lg</MenuItem>
-                                    <MenuItem value="xl">xl</MenuItem>
-                                </Select>
-                            </FormControl> 
-                            <FormControlLabel
-                                sx={{ mt: 1 }}
-                                control={
-                                    <Switch checked={fullWidth} onChange={handleFullWidthChange} />
-                                }
-                                label="Full width"
-                            />
-                            */}
-                        </Box>
                     </DialogContent>
-                    {/* <DialogActions>
-                        <Button onClick={handleClose}>Close</Button>
-                    </DialogActions> */}
                 </Dialog>
-                {/* </Badge> */}
             </Grid>
         </>
     );

@@ -14,7 +14,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ToggleColorMode from './ToggleColorMode';
 import LogoMain from '../icons/LogoMain';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
-import { Avatar, Card, CardContent, CardMedia, Dialog, DialogContent, DialogTitle, FormControl, IconButton, InputAdornment, InputLabel, List, ListItem, ListItemAvatar, ListItemText, Menu, OutlinedInput, TextField } from '@mui/material';
+import { Avatar, Card, CardContent, CardMedia, Chip, Dialog, DialogContent, DialogTitle, FormControl, IconButton, InputAdornment, InputBase, InputLabel, List, ListItem, ListItemAvatar, ListItemText, Menu, OutlinedInput, TextField, alpha, styled } from '@mui/material';
 import genres from '../data/genres.json';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import SearchIcon from '@mui/icons-material/Search';
@@ -24,6 +24,8 @@ import { db } from "../db/db";
 import { useLiveQuery } from "dexie-react-hooks";
 import { BASE_API_IMAGE } from '../constants/api';
 import CancelIcon from '@mui/icons-material/Cancel';
+import { Detector, Offline, Online } from 'react-detect-offline';
+import CircleIcon from '@mui/icons-material/Circle';
 
 const logoStyle = {
   // width: '140px',
@@ -31,6 +33,46 @@ const logoStyle = {
   marginLeft: '20px',
   cursor: 'pointer',
 };
+
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginRight: theme.spacing(2),
+  marginLeft: 0,
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(3),
+    width: 'auto',
+  },
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '20ch',
+    },
+  },
+}));
 
 function AppAppBar({ mode, toggleColorMode }) {
   const [open, setOpen] = React.useState(false);
@@ -117,6 +159,15 @@ function AppAppBar({ mode, toggleColorMode }) {
             >
               <TextField fullWidth label="fullWidth" id="fullWidth" />
             </Box> */}
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ 'aria-label': 'search' }}
+              />
+            </Search>
             <Box
               sx={{
                 flexGrow: 10,
@@ -272,7 +323,15 @@ function AppAppBar({ mode, toggleColorMode }) {
                 alignItems: 'center',
               }}
             >
-              <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
+              {/* <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} /> */}
+              <div>
+                <Online>
+                  <Chip label="Online" sx={{ background: "green" }} size="small" />
+                </Online>
+                <Offline>
+                  <Chip label="Offline" sx={{ background: "red" }} size="small" />
+                </Offline>
+              </div>
               <PopupState variant="popover" popupId="demo-popup-menu">
                 {(popupState) => (
                   <React.Fragment>
