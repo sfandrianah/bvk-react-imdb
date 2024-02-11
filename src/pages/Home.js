@@ -8,17 +8,23 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import AutoAwesomeRoundedIcon from '@mui/icons-material/AutoAwesomeRounded';
-import SvgMaterialDesign from 'docs/src/icons/SvgMaterialDesign';
-import AppAppBar from './components/AppAppBar';
-import Hero from './components/Hero';
-import LogoCollection from './components/LogoCollection';
-import Highlights from './components/Highlights';
-import Pricing from './components/Pricing';
-import Features from './components/Features';
-import Testimonials from './components/Testimonials';
-import FAQ from './components/FAQ';
-import Footer from './components/Footer';
+import SvgMaterialDesign from '../icons/SvgMaterialDesign';
+import AppAppBar from '../components/AppAppBar';
+import Hero from '../components/Hero';
+import LogoCollection from '../components/LogoCollection';
+import Highlights from '../components/Highlights';
+import Pricing from '../components/Pricing';
+import Features from '../components/Features';
+import Testimonials from '../components/Testimonials';
+import FAQ from '../components/FAQ';
+import Footer from '../components/Footer';
 import getLPTheme from './getLPTheme';
+import { BASE_API_MOVIE, BASE_API_MOVIE_TOKEN } from '../constants/api';
+import Dexie from 'dexie';
+import { db } from "../db/db";
+import Populars from '../components/Populars';
+import Trendings from '../components/Trendings';
+
 
 const defaultTheme = createTheme({});
 
@@ -68,6 +74,26 @@ ToggleCustomTheme.propTypes = {
 };
 
 export default function LandingPage() {
+
+
+  const loadMovieListGenre = async () => {
+    await fetch(`${BASE_API_MOVIE}/genre/movie/list?language=en`, {
+      headers: {
+        'Authorization': 'Bearer ' + BASE_API_MOVIE_TOKEN,
+      }
+    }).then(response => response.json())
+      .then(async (data) => {
+        var responseJson = data.genres;
+        for (let no = 0; no < responseJson.length; no++) {
+          await db.genres.put({ id: responseJson[no].id, name: responseJson[no].name });
+        }
+      })
+      ;
+  }
+
+  React.useEffect(() => {
+    loadMovieListGenre();
+  }, []);
   const [mode, setMode] = React.useState('dark');
   const [showCustomTheme, setShowCustomTheme] = React.useState(true);
   const LPtheme = createTheme(getLPTheme(mode));
@@ -86,8 +112,10 @@ export default function LandingPage() {
       <AppAppBar mode={mode} toggleColorMode={toggleColorMode} />
       <Hero />
       <Box sx={{ bgcolor: 'background.default' }}>
-        <LogoCollection />
-        <Features />
+        <Populars />
+        <Trendings />
+        {/* <LogoCollection /> */}
+        {/* <Features />
         <Divider />
         <Testimonials />
         <Divider />
@@ -95,8 +123,8 @@ export default function LandingPage() {
         <Divider />
         <Pricing />
         <Divider />
-        <FAQ />
-        <Divider />
+        <FAQ /> */}
+        {/* <Divider /> */}
         <Footer />
       </Box>
       <ToggleCustomTheme
