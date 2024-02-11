@@ -1,7 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import "@fontsource/poppins"; // Defaults to weight 400
+import "@fontsource/poppins/400.css"; // Specify weight
+import "@fontsource/poppins/400-italic.css"; // Specify weight and style
 import './index.css';
-import App from './App';
+// import App from './App';
+
 import reportWebVitals from './reportWebVitals';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import LandingPage from './pages/Home';
@@ -10,7 +14,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     // element: <div>Hello world!</div>,
-    element: LandingPage
+    element: <LandingPage/>
   },
 ]);
 
@@ -19,6 +23,7 @@ root.render(
   <React.StrictMode>
     {/* <App /> */}
     <RouterProvider router={router} />
+    {/* <LandingPage/> */}
   </React.StrictMode>
 );
 
